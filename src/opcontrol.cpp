@@ -1,19 +1,37 @@
 #include "opcontrol.hpp"
 
 void opcontrol() {
-    // Anything inside this loop is run every frame
 	while (true) { 
+        // Prevent tasks from altering drive
+        autoDriveState = -1;
         // Read controller as voltage values (-127 to 127)
-		double left = -controller.get_analog(ANALOG_LEFT_Y);
+		double left = controller.get_analog(ANALOG_LEFT_Y);
 		double right = controller.get_analog(ANALOG_RIGHT_Y);
 
-		leftMotorFront.move(left);
-        leftMotorMiddle.move(left);
-        leftMotorBack.move(left);  
-        rightMotorFront.move(right);  
-        rightMotorFront.move(right);
-        rightMotorBack.move(right);
-		
+        driveLeftBack.move(left);
+        driveLeftMiddle.move(left);
+        driveLeftBack.move(left);  
+        driveRightFront.move(right);  
+        driveRightMiddle.move(right);
+        driveRightBack.move(right); 
+
+        handle_four_bar();
+    
 		pros::delay(TASK_DELAY);
 	}
+}
+
+void handle_four_bar(){
+    if (controller.get_digital(FOUR_BAR_MANUAL_UP)){
+        fourBarRight.move(127);
+        fourBarLeft.move(127);
+    }
+    else if (controller.get_digital(FOUR_BAR_MANUAL_DOWN)){
+        fourBarRight.move(-127);
+        fourBarLeft.move(-127);
+    }
+    else {
+        fourBarRight.brake();
+        fourBarLeft.brake();
+    }
 }
