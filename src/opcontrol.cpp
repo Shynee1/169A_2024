@@ -3,35 +3,45 @@
 void opcontrol() {
 	while (true) { 
         // Prevent tasks from altering drive
-        autoDriveState = -1;
+        driveState = CONTROLLER;
         // Read controller as voltage values (-127 to 127)
 		double left = controller.get_analog(ANALOG_LEFT_Y);
 		double right = controller.get_analog(ANALOG_RIGHT_Y);
 
-        driveLeftBack.move(left);
+        driveLeftFront.move(left);
         driveLeftMiddle.move(left);
         driveLeftBack.move(left);  
         driveRightFront.move(right);  
         driveRightMiddle.move(right);
         driveRightBack.move(right); 
 
-        handle_four_bar();
-    
+        handle_two_bar();
+        handle_pto();
+
 		pros::delay(TASK_DELAY);
-	}
+    }
 }
 
-void handle_four_bar(){
+void handle_pto() {
+    if (controller.get_digital_new_press(PTO_TOGGLE))
+        toggle_pto();
+}
+
+void handle_two_bar(){
+    //ptoState = TWOBAR;
+
     if (controller.get_digital(FOUR_BAR_MANUAL_UP)){
-        fourBarRight.move(127);
-        fourBarLeft.move(127);
+        //setTwobarTargetRelative(-40);
+        ptoMotorRight.move(127);
+        ptoMotorLeft.move(127);
     }
     else if (controller.get_digital(FOUR_BAR_MANUAL_DOWN)){
-        fourBarRight.move(-127);
-        fourBarLeft.move(-127);
+        //setTwobarTargetRelative(40);
+        ptoMotorRight.move(-127);
+        ptoMotorLeft.move(-127);
     }
     else {
-        fourBarRight.brake();
-        fourBarLeft.brake();
-    }
+        ptoMotorRight.brake();
+        ptoMotorLeft.brake();
+    }  
 }

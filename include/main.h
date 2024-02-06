@@ -67,6 +67,9 @@ void initialize(void);
 void disabled(void);
 void competition_initialize(void);
 void opcontrol(void);
+void initializeAutoSelector();
+void initializeDisplayLogo();
+void initializeDebugScreen();
 #ifdef __cplusplus
 }
 #endif

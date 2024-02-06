@@ -6,12 +6,12 @@ void move(void* args){
         // Get average position for all drive-train wheels
         double motorRightPos = (driveRightFront.get_position() + driveRightMiddle.get_position() + driveRightBack.get_position()) / 3.0;
         double motorLeftPos = (driveLeftFront.get_position() + driveLeftMiddle.get_position() + driveLeftBack.get_position()) / 3.0;
-        position = (motorRightPos - motorLeftPos) / 2.0;
+        drivePosition = (motorRightPos - motorLeftPos) / 2.0;
         
         // Calculate motor output with PID
-        double output = movePID.calculate(targetMove, position);
+        double output = drivePID.calculate(targetDrive, drivePosition);
 
-        if (autoDriveState == 0) {
+        if (driveState == DRIVE) {
             driveLeftFront.move(output);
             driveLeftMiddle.move(output);
             driveLeftBack.move(output);
@@ -19,8 +19,6 @@ void move(void* args){
             driveRightMiddle.move(output);
             driveRightBack.move(output);
         }
-
-        previousPosition = position;
     
         delay(TASK_DELAY);
     }
@@ -45,7 +43,7 @@ void turn(void* args){
         // Calcuate turn PID
         double output = turnPID.calculate(targetAngle, orientation);
 
-        if (autoDriveState == 1) {
+        if (driveState == TURN) {
             driveLeftFront.move(output);
             driveLeftMiddle.move(output);
             driveLeftBack.move(output);
@@ -53,13 +51,27 @@ void turn(void* args){
             driveRightMiddle.move(-output);
             driveRightBack.move(-output);
         }
-        
-        previousOrientation = orientation;
 
         delay(TASK_DELAY);
     }
 }
 
+void twobar(void* args) {
+    while(true){
+
+        twobarPosition = (ptoMotorRight.get_position() + ptoMotorLeft.get_position()) / 2.0;
+        double output = twobarPID.calculate(targetTwobar, twobarPosition);
+        
+        if (ptoState == TWOBAR){
+            ptoMotorRight.move(output);
+            ptoMotorLeft.move(output);
+        }
+
+        delay(TASK_DELAY);
+    }
+}
+
+/*
 void kicker(void* args) {
     while (true) {
         targetKicker = (distance.get() <= TRIBALL_BOUND) ? KICKER_FIRE : KICKER_DRAWBACK;
@@ -71,3 +83,4 @@ void kicker(void* args) {
         kickerRight.move(output);
     }   
 }
+*/

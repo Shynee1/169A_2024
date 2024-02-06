@@ -1,5 +1,6 @@
 #pragma once
 #include "globals.hpp"
+#include "autonomous.hpp"
 
 /**
  * Entry point for operator (driver) control
@@ -7,4 +8,5 @@
  * Runs after autonomous during a competition
 */
 void opcontrol();
-void handle_four_bar();
+void handle_two_bar();
+void handle_pto();

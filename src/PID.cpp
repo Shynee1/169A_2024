@@ -1,10 +1,9 @@
 #include "PID.hpp"
 
-PID::PID(double kP, double kI, double kD, double integral_bound) {
+PID::PID(double kP, double kI, double kD) {
     this->kP = kP;
     this->kI = kI;
     this->kD = kD;
-    this->integral_bound = integral_bound;
 }
 
 double PID::calculate(double target, double current) {
@@ -13,11 +12,6 @@ double PID::calculate(double target, double current) {
     derivative = error - prevError;
     integral += error;
 
-    // Stop integral from growing too large (remove if using PID for lifting)
-    if (error == 0 || abs(current) > abs(target) || integral > integral_bound) {
-        integral = 0;
-    }
-    
     prevError = error;
     
     // Calculate motor output using PID
