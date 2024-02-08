@@ -37,10 +37,10 @@ void prog() {
     pros::delay(500);
     setAngleTargetAbsolute(19);
     pros::delay(1000);
-    setDriveTarget(1465);
+    setDriveTargetUnits(1465);
     intake.move(127);
     pros::delay(2000);
-    setDriveTarget(-1490);
+    setDriveTargetUnits(-1490);
     pros::delay(2000);
     intake.move(0);
     verticalWings.set_value(true);
@@ -60,14 +60,20 @@ void close_elim() {
 
 }
 void far_awp() {
-
+    
 }
 void far_elim() {
     
 }
 
-void setDriveTarget(int encoderUnits) {
+void setDriveTargetUnits(int encoderUnits) {
     targetDrive = drivePosition + encoderUnits;
+    driveState = DRIVE;
+}
+
+void setDriveTargetInches(double distance){
+    double encoderUnits = ((360.0 * distance) / (WHEEL_DIAMETER * PI)) * (5.0/6.0);
+    targetDrive += encoderUnits;
     driveState = DRIVE;
 }
 

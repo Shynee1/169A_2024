@@ -7,6 +7,8 @@ constexpr int TASK_DELAY = 20;
 constexpr int KICKER_DRAWBACK = 40;
 constexpr int KICKER_FIRE = KICKER_DRAWBACK + 20;
 constexpr int TRIBALL_BOUND = 50;
+constexpr double PI = 3.14159265358979323846;
+constexpr double WHEEL_DIAMETER = 2.75;
 
 // PID constants
 constexpr double driveP = 1.0;
