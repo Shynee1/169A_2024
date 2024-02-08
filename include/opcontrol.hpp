@@ -10,3 +10,5 @@
 void opcontrol();
 void handle_two_bar();
 void handle_pto();
+void handle_wings(bool& verticalWingState, bool& horizontalWingState);
+void handle_intake(int& intakeState);

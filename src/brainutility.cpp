@@ -46,6 +46,22 @@ lv_obj_t* create_image(lv_obj_t* parent, const lv_img_dsc_t* src, lv_align_t ali
     return image;
 }
 
+lv_obj_t* create_image(lv_obj_t* parent, const lv_img_dsc_t* src, lv_dimension dimensions) {
+    lv_obj_t* image = lv_img_create(parent, NULL);
+	lv_img_set_src(image, src);
+	lv_obj_set_pos(image, dimensions.x, dimensions.y);
+    lv_obj_set_size(image, dimensions.w, dimensions.h);
+    return image;
+}
+
+lv_obj_t* create_image(lv_obj_t* parent, std::string filepath, lv_dimension dimensions) {
+    lv_obj_t* image = lv_img_create(parent, NULL);
+    lv_img_set_src(image, filepath.c_str());
+    lv_obj_set_pos(image, dimensions.x, dimensions.y);
+    lv_obj_set_size(image, dimensions.w, dimensions.h);
+    return image;
+}
+
 lv_obj_t* create_dropdown(lv_obj_t* parent, lv_dimension dimensions, const char* list) {
     lv_obj_t* dropdown = lv_ddlist_create(lv_scr_act(), NULL);
 	lv_ddlist_set_options(dropdown, list);
@@ -95,13 +111,57 @@ void changePage(int newPageId) {
     lv_obj_set_hidden(currentPage, false);
 }
 
+
+void debug_print(std::string text) {
+    std::string currText = lv_label_get_text(debugLabel);
+    currText += text + "\n";
+    lv_label_set_text(debugLabel, currText.c_str());
+}
+
+void debug_print(int line, std::string text) {
+    std::string currentText = lv_label_get_text(debugLabel);
+
+    int startPos = find_nth_pos(currentText, '\n', line);
+    if (startPos == -1){
+        debug_print(text);
+        return;
+    }
+
+    int endPos = currentText.find('\n', startPos + 1);
+    if (endPos == std::string::npos)
+        endPos = currentText.length();
+    
+    std::string newText = 
+        currentText.substr(0, startPos) + text + 
+        currentText.substr(endPos, currentText.length() - endPos);
+    
+    lv_label_set_text(debugLabel, newText.c_str());
+}
+
+void debug_clear() {
+    lv_label_set_text(debugLabel, "");
+}
+
+int find_nth_pos(std::string str, char c, int n) {
+    size_t pos = 0;
+    int count = 0;
+    while (count != n){
+        pos = str.find(c, pos);
+        if (pos == std::string::npos)
+            return -1;
+        pos++;
+        count++;
+    }
+    return pos;
+}
+
 lv_res_t button_callback(lv_obj_t* button) {
     uint8_t id = lv_obj_get_free_num(button);
 
     if (id == PROG_BUTTON_ID){
         lv_obj_set_hidden(awpButton, true);
         lv_obj_set_hidden(elimButton, true);
-    } else if (id == RED_BUTTON_ID || id == BLUE_BUTTON_ID){
+    } else if (id == NEAR_BUTTON_ID || id == FAR_BUTTON_ID){
         lv_obj_set_hidden(awpButton, false);
         lv_obj_set_hidden(elimButton, false);
     }
@@ -121,12 +181,49 @@ lv_res_t dropdown_callback(lv_obj_t* dropdown) {
     return LV_RES_OK;
 }
 
-void debug_print(std::string text) {
-    std::string currText = lv_label_get_text(debugLabel);
-    currText += "\n" + text;
-    lv_label_set_text(debugLabel, currText.c_str());
+lv_res_t file_open_callback(void* file_p, const char* filepath, lv_fs_mode_t mode) {
+    const char* flags = "";
+    if (mode == LV_FS_MODE_WR)
+        flags = "wr";
+    else if (mode == LV_FS_MODE_RD)
+        flags = "rb";
+    else if (mode == LV_FS_MODE_RD | LV_FS_MODE_WR)
+        flags = "a+";
+
+    std::string path = "S:usr/" + std::string(filepath);
+    file_t file = fopen(path.c_str(), flags);
+
+    if (file == NULL)
+        return LV_FS_RES_UNKNOWN;
+    
+    fseek(file, 0, SEEK_SET);
+
+    file_t* fp = static_cast<file_t*>(file_p);
+    *fp = file;
+
+    return LV_RES_OK;
 }
 
-void debug_clear() {
-    lv_label_set_text(debugLabel, "");
+lv_res_t file_close_callback(void* file_p) {
+    file_t file = *static_cast<file_t*>(file_p);
+    fclose(file);
+    return LV_RES_INV;
+}
+
+lv_res_t file_read_callback(void* file_p, void* buf, uint32_t btr, uint32_t* bw) {
+    file_t file = *static_cast<file_t*>(file_p);
+    *bw = fread(buf, 1, btr, file);
+    return LV_RES_OK;
+}
+
+lv_res_t file_seek_callback(void* file_p, uint32_t pos) {
+    file_t file = *static_cast<file_t*>(file_p);
+    fseek(file, pos, SEEK_SET);
+    return LV_RES_OK;
+}
+
+lv_res_t file_tell_callback(void* file_p, uint32_t* pos) {
+    file_t file = *static_cast<file_t*>(file_p);
+    *pos = ftell(file);
+    return LV_RES_OK;
 }

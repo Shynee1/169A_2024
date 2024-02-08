@@ -3,28 +3,56 @@
 void autonomous() {
     driveState = DRIVE;
     tare_motors();
+    /*
+    debug_print("auto working");
+
     switch (autoSelectorIndex){
         case PROG_BUTTON_ID:
             prog();
+            debug_print(0, "Prog");
             break;
-        case (RED_BUTTON_ID * AWP_BUTTON_ID):
-            far_awp();
-            break;
-        case (RED_BUTTON_ID * ELIM_BUTTON_ID):
-            far_elim();
-            break;
-        case (BLUE_BUTTON_ID * AWP_BUTTON_ID):
+        case (NEAR_BUTTON_ID * AWP_BUTTON_ID):
             close_awp();
             break;
-        case (BLUE_BUTTON_ID * ELIM_BUTTON_ID):
+        case (NEAR_BUTTON_ID * ELIM_BUTTON_ID):
+            close_elim();
+            break;
+        case (FAR_BUTTON_ID * AWP_BUTTON_ID):
             far_awp();
             break;
-    }
+        case (FAR_BUTTON_ID * ELIM_BUTTON_ID):
+            far_elim();
+            break;
+        default:
+            debug_print(0, "uh oh!");
+            break;
+    }*/
+    prog();
 }
 
 void prog() {
-
+    horizontalWings.set_value(true);
+    pros::delay(500);
+    horizontalWings.set_value(false);
+    pros::delay(500);
+    setAngleTargetAbsolute(19);
+    pros::delay(1000);
+    setDriveTarget(1465);
+    intake.move(127);
+    pros::delay(2000);
+    setDriveTarget(-1490);
+    pros::delay(2000);
+    intake.move(0);
+    verticalWings.set_value(true);
+    pros::delay(100);
+    setAngleTargetAbsolute(-100);
+    pros::delay(1000);
+    verticalWings.set_value(false);
+    turnPID.set_kP(2.0);
+    turnPID.set_kD(1.0);
+    setAngleTargetAbsolute(-250);
 }
+
 void close_awp() {
 
 }
