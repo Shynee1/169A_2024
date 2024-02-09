@@ -35,15 +35,11 @@ void handle_pto() {
 }
 
 void handle_two_bar(){
-    //ptoState = TWOBAR;
-
     if (controller.get_digital(FOUR_BAR_MANUAL_UP)){
-        //setTwobarTargetRelative(-40);
         ptoMotorRight.move(-127);
         ptoMotorLeft.move(-127);
     }
     else if (controller.get_digital(FOUR_BAR_MANUAL_DOWN)){
-        //setTwobarTargetRelative(40);
         ptoMotorRight.move(127);
         ptoMotorLeft.move(127);
     }

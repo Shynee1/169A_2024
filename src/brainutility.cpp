@@ -190,11 +190,12 @@ lv_res_t file_open_callback(void* file_p, const char* filepath, lv_fs_mode_t mod
     else if (mode == LV_FS_MODE_RD | LV_FS_MODE_WR)
         flags = "a+";
 
-    std::string path = "S:usr/" + std::string(filepath);
+    std::string path = "/usd/" + std::string(filepath);
     file_t file = fopen(path.c_str(), flags);
 
     if (file == NULL)
         return LV_FS_RES_UNKNOWN;
+
     
     fseek(file, 0, SEEK_SET);
 

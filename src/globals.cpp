@@ -37,8 +37,8 @@ lv_obj_t* mikeFace;
 lv_obj_t* debugLabel;
 
 // Runtime variable definitions
-double drivePosition, orientation, twobarPosition = 0.0;
-double targetDrive, targetAngle, targetTwobar = 0.0;
+double drivePosition, orientation = 0.0;
+double targetDrive, targetAngle = 0.0;
 int driveState = CONTROLLER;
 int ptoState = KICKER;
 int autoSelectorIndex = 0;
@@ -59,8 +59,8 @@ void toggle_pto() {
     bool kicker = (ptoState == KICKER);
     ptoState = TRANSITION;
 
-    ptoMotorRight.move(-127);
-    ptoMotorLeft.move(-127);
+    ptoMotorRight.move(-100);
+    ptoMotorLeft.move(-100);
 
     ptoPiston.set_value(kicker);
     pros::delay(100);

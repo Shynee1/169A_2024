@@ -17,5 +17,3 @@ void setDriveTargetUnits(int encoderUnits);
 void setDriveTargetInches(double distance);
 void setAngleTargetRelative(double degrees);
 void setAngleTargetAbsolute(double degrees);
-void setTwobarTargetRelative(int encoderUnits);
-void setTwobarTargetAbsolute(int encoderUnits);

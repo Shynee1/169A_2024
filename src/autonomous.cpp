@@ -27,34 +27,48 @@ void autonomous() {
             debug_print(0, "uh oh!");
             break;
     }*/
-    prog();
+    close_awp();
 }
 
 void prog() {
+    
+
+
+}
+
+void close_awp() {
     horizontalWings.set_value(true);
     pros::delay(500);
     horizontalWings.set_value(false);
     pros::delay(500);
     setAngleTargetAbsolute(19);
-    pros::delay(1000);
+    pros::delay(500);
     setDriveTargetUnits(1465);
     intake.move(127);
     pros::delay(2000);
-    setDriveTargetUnits(-1490);
+    setDriveTargetUnits(-1525);
     pros::delay(2000);
     intake.move(0);
     verticalWings.set_value(true);
     pros::delay(100);
-    setAngleTargetAbsolute(-100);
-    pros::delay(1000);
-    verticalWings.set_value(false);
-    turnPID.set_kP(2.0);
+    turnPID.set_kP(1.0);
     turnPID.set_kD(1.0);
-    setAngleTargetAbsolute(-250);
-}
-
-void close_awp() {
-
+    setAngleTargetAbsolute(-100);
+    pros::delay(750);
+    verticalWings.set_value(false);
+    setAngleTargetAbsolute(100);
+    pros::delay(1000);
+    intake.move(-127);
+    pros::delay(500);
+    intake.move(0);
+    setAngleTargetAbsolute(-70);
+    pros::delay(1000);
+    setDriveTargetUnits(-1000);
+    pros::delay(1000);
+    turnPID.set_kP(3.0);
+    setAngleTargetAbsolute(-92.5);
+    pros::delay(750);
+    setDriveTargetUnits(-325);
 }
 void close_elim() {
 
@@ -87,11 +101,4 @@ void setAngleTargetAbsolute(double degrees) {
     driveState = TURN;
 }
 
-void setTwobarTargetRelative(int encoderUnits) {
-    targetTwobar = twobarPosition + encoderUnits;
-}
-
-void setTwobarTargetAbsolute(int encoderUnits) {
-    targetTwobar = encoderUnits;
-}
 

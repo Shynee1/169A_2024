@@ -86,8 +86,8 @@ extern lv_obj_t* mikeFace;
 extern lv_obj_t* debugLabel;
 
 // Runtime variable declarations
-extern double drivePosition, orientation, twobarPosition; 
-extern double targetDrive, targetAngle, targetTwobar;
+extern double drivePosition, orientation; 
+extern double targetDrive, targetAngle;
 extern int driveState, ptoState;
 extern int autoSelectorIndex;
 
