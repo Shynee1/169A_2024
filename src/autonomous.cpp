@@ -27,7 +27,7 @@ void autonomous() {
             debug_print(0, "uh oh!");
             break;
     }*/
-    close_awp();
+    far_elim();
 }
 
 void prog() {
@@ -37,6 +37,8 @@ void prog() {
 }
 
 void close_awp() {
+    turnPID.set_kP(3.0);
+    turnPID.set_kD(1.0);
     horizontalWings.set_value(true);
     pros::delay(500);
     horizontalWings.set_value(false);
@@ -51,8 +53,8 @@ void close_awp() {
     intake.move(0);
     verticalWings.set_value(true);
     pros::delay(100);
-    turnPID.set_kP(1.0);
-    turnPID.set_kD(1.0);
+    turnPID.set_kP(turnP);
+    turnPID.set_kD(turnD);
     setAngleTargetAbsolute(-100);
     pros::delay(750);
     verticalWings.set_value(false);
@@ -66,6 +68,7 @@ void close_awp() {
     setDriveTargetUnits(-1000);
     pros::delay(1000);
     turnPID.set_kP(3.0);
+    turnPID.set_kD(1.0);
     setAngleTargetAbsolute(-92.5);
     pros::delay(750);
     setDriveTargetUnits(-325);
@@ -77,7 +80,36 @@ void far_awp() {
     
 }
 void far_elim() {
-    
+    intake.move(127);
+    setDriveTargetUnits(50);
+    pros::delay(500);
+    setDriveTargetUnits(400);
+    pros::delay(2000);
+    intake.move(0);
+    setDriveTargetUnits(-1090);
+    pros::delay(2000);
+    setAngleTargetAbsolute(-45);
+    pros::delay(1000);
+    verticalWings.set_value(true);
+    setDriveTargetUnits(-650);
+    pros::delay(1000);
+    verticalWings.set_value(false);
+    setDriveTargetUnits(100);
+    pros::delay(1000);
+    setDriveTargetUnits(-350);
+    pros::delay(1000);
+    setAngleTargetAbsolute(-85);
+    pros::delay(1000);
+    setDriveTargetUnits(-700);
+    pros::delay(1000);
+    setDriveTargetUnits(300);
+    pros::delay(1000);
+    turnPID.set_kD(3.0);
+    setAngleTargetAbsolute(85);
+    pros::delay(2000);
+    setDriveTargetUnits(400);
+    pros::delay(1000);
+    setDriveTargetUnits(-500);
 }
 
 void setDriveTargetUnits(int encoderUnits) {

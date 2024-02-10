@@ -30,18 +30,10 @@ void move(void* args){
 }
 
 void turn(void* args){
-    int imuCalibrationThreshold = 100;
-    int timerTime = 0;
-
     while (true) {
-        // Wait for IMUs to calibrate
-        if (timerTime <= imuCalibrationThreshold){ 
-            timerTime++; 
-            continue; 
-        }
-
         // Update robot orientation
         orientation = imu.get_rotation();
+        // Wait for IMU to calibrate
         if (std::isinf(orientation))
            continue;  
         

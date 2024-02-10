@@ -19,7 +19,7 @@ void initialize() {
 
 	tare_motors();
 
-	initializeFileDrive();
+	//initializeFileDrive();
 
 	standardButtonStyle = create_button_style(LV_COLOR_WHITE, LV_COLOR_BLACK, LV_COLOR_WHITE, LV_COLOR_WHITE);
 	redButtonStyle = create_button_style(LV_COLOR_WHITE, LV_COLOR_RED, LV_COLOR_WHITE, LV_COLOR_BLACK);
@@ -43,6 +43,7 @@ void initialize() {
 	pros::Task moveTask(move);
 	pros::Task turnTask(turn);
 }
+
 
 void initializeFileDrive() {
 	memset(&drive, 0, sizeof(lv_fs_drv_t));
