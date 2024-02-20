@@ -1,3 +1,4 @@
+
 #pragma once
 #include "globals.hpp"
 #include "brainutility.hpp"
@@ -13,7 +14,9 @@ void close_awp();
 void close_elim();
 void far_awp();
 void far_elim();
+void wait(int errorThreshold);
 void setDriveTargetUnits(int encoderUnits);
 void setDriveTargetInches(double distance);
 void setAngleTargetRelative(double degrees);
 void setAngleTargetAbsolute(double degrees);
+double angleDifference(double a, double b);

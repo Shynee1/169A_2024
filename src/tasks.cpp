@@ -8,7 +8,6 @@ void move(void* args){
         double motorLeftPos = (driveLeftFront.get_position() + driveLeftMiddle.get_position() + driveLeftBack.get_position()) / 3.0;
         drivePosition = (motorRightPos + motorLeftPos) / 2.0;
 
-        debug_print(1, "Drive Pos: " + std::to_string(drivePosition));
         debug_print(2, "Drive target: " + std::to_string(targetDrive));
         
         // Calculate motor output with PID

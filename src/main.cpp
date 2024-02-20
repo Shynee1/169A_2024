@@ -3,9 +3,6 @@
 #include "brainutility.hpp"
 #include "tasks.hpp"
 
-//LV_IMG_DECLARE(logo);
-//LV_IMG_DECLARE(mike);
-
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -13,13 +10,13 @@
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-
+	
 	ptoMotorRight.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	ptoMotorLeft.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
 	tare_motors();
 
-	//initializeFileDrive();
+	initializeFileDrive();
 
 	standardButtonStyle = create_button_style(LV_COLOR_WHITE, LV_COLOR_BLACK, LV_COLOR_WHITE, LV_COLOR_WHITE);
 	redButtonStyle = create_button_style(LV_COLOR_WHITE, LV_COLOR_RED, LV_COLOR_WHITE, LV_COLOR_BLACK);
@@ -48,7 +45,7 @@ void initialize() {
 void initializeFileDrive() {
 	memset(&drive, 0, sizeof(lv_fs_drv_t));
 	drive.file_size = sizeof(FILE*);
-	drive.letter = 'D';
+	drive.letter = 'S';
 	drive.open = file_open_callback;
 	drive.close = file_close_callback;
 	drive.read = file_read_callback;
@@ -74,7 +71,7 @@ void initializeAutoSelector() {
 	lv_btn_set_action(awpButton, LV_BTN_ACTION_CLICK, button_callback);
 	lv_btn_set_action(elimButton, LV_BTN_ACTION_CLICK, button_callback);
 
-	//mikeFace = create_image(pages[0], &mike, {205, 10, 265, 60});
+	mikeFace = create_image(pages[0], "S:/usd/mike.bin", {205, 10, 265, 60});
 }
 
 void initializeDisplayLogo() {

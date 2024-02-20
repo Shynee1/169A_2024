@@ -181,50 +181,50 @@ lv_res_t dropdown_callback(lv_obj_t* dropdown) {
     return LV_RES_OK;
 }
 
-lv_res_t file_open_callback(void* file_p, const char* filepath, lv_fs_mode_t mode) {
+lv_fs_res_t file_open_callback(void* file_p, const char * filename, lv_fs_mode_t mode)
+{
+    errno = 0;
     const char* flags = "";
-    if (mode == LV_FS_MODE_WR)
-        flags = "wr";
-    else if (mode == LV_FS_MODE_RD)
+    if(mode == LV_FS_MODE_WR) 
+        flags = "wb";
+    else if(mode == LV_FS_MODE_RD) 
         flags = "rb";
-    else if (mode == LV_FS_MODE_RD | LV_FS_MODE_WR)
+    else if(mode == (LV_FS_MODE_WR | LV_FS_MODE_RD)) 
         flags = "a+";
 
-    std::string path = "/usd/" + std::string(filepath);
+    std::string path = "/" + std::string(filename);
     file_t file = fopen(path.c_str(), flags);
 
     if (file == NULL)
         return LV_FS_RES_UNKNOWN;
-
     
     fseek(file, 0, SEEK_SET);
-
     file_t* fp = static_cast<file_t*>(file_p);
     *fp = file;
-
-    return LV_RES_OK;
+    
+    return LV_FS_RES_OK;
 }
 
-lv_res_t file_close_callback(void* file_p) {
-    file_t file = *static_cast<file_t*>(file_p);
-    fclose(file);
-    return LV_RES_INV;
+lv_fs_res_t file_close_callback(void* file_p) {
+    file_t* fp = static_cast<file_t*>(file_p);
+    fclose(*fp);
+    return LV_FS_RES_OK;
 }
 
-lv_res_t file_read_callback(void* file_p, void* buf, uint32_t btr, uint32_t* bw) {
-    file_t file = *static_cast<file_t*>(file_p);
-    *bw = fread(buf, 1, btr, file);
-    return LV_RES_OK;
+lv_fs_res_t file_read_callback(void* file_p, void* buf, uint32_t btr, uint32_t* br) {
+    file_t* fp = static_cast<file_t*>(file_p);
+    *br = fread(buf, 1, btr, *fp);
+    return LV_FS_RES_OK;
 }
 
-lv_res_t file_seek_callback(void* file_p, uint32_t pos) {
-    file_t file = *static_cast<file_t*>(file_p);
-    fseek(file, pos, SEEK_SET);
-    return LV_RES_OK;
+lv_fs_res_t file_seek_callback(void* file_p, uint32_t pos){
+    file_t* fp = static_cast<file_t*>(file_p);
+    fseek(*fp, pos, SEEK_SET);
+    return LV_FS_RES_OK;
 }
 
-lv_res_t file_tell_callback(void* file_p, uint32_t* pos) {
-    file_t file = *static_cast<file_t*>(file_p);
-    *pos = ftell(file);
-    return LV_RES_OK;
+lv_fs_res_t file_tell_callback(void* file_p, uint32_t* pos_p){
+    file_t* fp = static_cast<file_t*>(file_p);
+    *pos_p = ftell(*fp);
+    return LV_FS_RES_OK;
 }

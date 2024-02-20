@@ -15,7 +15,7 @@ constexpr double driveP = 1.0;
 constexpr double driveI = 0.0;
 constexpr double driveD = 3.0;
 
-constexpr double turnP = 2.0;
+constexpr double turnP = 1.0;
 constexpr double turnI = 0.0;
 constexpr double turnD = 1.0;
 

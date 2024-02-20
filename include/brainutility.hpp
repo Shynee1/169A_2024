@@ -45,4 +45,4 @@ lv_res_t file_open_callback(void* file_p, const char* filepath, lv_fs_mode_t mod
 lv_res_t file_close_callback(void* file_p);
 lv_res_t file_read_callback(void* file_p, void* buf, uint32_t btr, uint32_t* bw);
 lv_res_t file_seek_callback(void* file_p, uint32_t pos);
-lv_res_t file_tell_callback(void* file_p, uint32_t* pos);
+lv_res_t file_tell_callback(void* file_p, uint32_t* pos_p);

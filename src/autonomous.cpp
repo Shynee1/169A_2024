@@ -4,8 +4,6 @@ void autonomous() {
     driveState = DRIVE;
     tare_motors();
     /*
-    debug_print("auto working");
-
     switch (autoSelectorIndex){
         case PROG_BUTTON_ID:
             prog();
@@ -26,14 +24,16 @@ void autonomous() {
         default:
             debug_print(0, "uh oh!");
             break;
-    }*/
-    far_elim();
+    } */
+    prog();
 }
 
 void prog() {
-    
-
-
+    setDriveTargetUnits(500);
+    wait(97);
+    setAngleTargetAbsolute(90);
+    wait(95);
+    setDriveTargetUnits(100);
 }
 
 void close_awp() {
@@ -112,6 +112,26 @@ void far_elim() {
     setDriveTargetUnits(-500);
 }
 
+void wait(int percentComplete) {
+    // Convert percent complete to a multiplier (95 -> 0.05)
+    double errorMultiplier = (100 - percentComplete) / 100.0;
+
+    // Delay if drive pid error is not within error threshold
+    while (driveState == DRIVE &&
+           abs(targetDrive - drivePosition) >= 
+           (targetDrive * errorMultiplier))
+        pros::delay(10);
+    
+    // Delay if turn pid error is not within error threshold
+    while (driveState == TURN &&
+           angleDifference(orientation, targetAngle) >=
+           (targetAngle * errorMultiplier))
+        pros::delay(10);
+
+    // Add small delay to complete movement
+    pros::delay(200 * errorMultiplier);
+}
+
 void setDriveTargetUnits(int encoderUnits) {
     targetDrive = drivePosition + encoderUnits;
     driveState = DRIVE;
@@ -133,4 +153,8 @@ void setAngleTargetAbsolute(double degrees) {
     driveState = TURN;
 }
 
+double angleDifference(double a, double b) {
+    double diff =  fmod(round((b - a + 180.0)), 360) - 180.0;
+    return diff < -180.0 ? diff + 360.0 : diff;
+}
 
