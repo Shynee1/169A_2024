@@ -39,6 +39,7 @@ void initialize() {
 
 	pros::Task moveTask(move);
 	pros::Task turnTask(turn);
+	//pros::Task stationaryTask(stationary_check);
 }
 
 

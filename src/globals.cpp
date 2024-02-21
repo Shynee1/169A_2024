@@ -37,11 +37,12 @@ lv_obj_t* mikeFace;
 lv_obj_t* debugLabel;
 
 // Runtime variable definitions
-double drivePosition, orientation = 0.0;
+double drivePosition, orientation, previousPosition, previousOrientation = 0.0;
 double targetDrive, targetAngle = 0.0;
 int driveState = CONTROLLER;
 int ptoState = KICKER;
 int autoSelectorIndex = 0;
+bool isStationary = false;
 
 // Utility function defintions
 void tare_motors() {

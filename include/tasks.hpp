@@ -5,4 +5,4 @@
 
 void move(void* args);
 void turn(void* args);
-void twobar(void *args);
+void stationary_check(void* args);

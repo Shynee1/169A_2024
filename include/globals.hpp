@@ -3,7 +3,7 @@
 #include "PID.hpp"
 
 // Utility variables
-constexpr int TASK_DELAY = 20;
+constexpr int TASK_DELAY = 10;
 constexpr int KICKER_DRAWBACK = 40;
 constexpr int KICKER_FIRE = KICKER_DRAWBACK + 20;
 constexpr int TRIBALL_BOUND = 50;
@@ -31,6 +31,7 @@ constexpr auto VERTICAL_WING_TOGGLE = pros::E_CONTROLLER_DIGITAL_X;
 constexpr auto HORIZONTAL_WING_TOGGLE = pros::E_CONTROLLER_DIGITAL_Y;
 constexpr auto INTAKE_FOWARD_MANUAL = pros::E_CONTROLLER_DIGITAL_R1;
 constexpr auto INTAKE_BACKWARD_MANUAL = pros::E_CONTROLLER_DIGITAL_R2;
+constexpr auto KICKER_TOGGLE = pros::E_CONTROLLER_DIGITAL_UP;
 
 // VEX ports
 constexpr int DRIVE_RIGHT_FRONT_PORT = 6;
@@ -86,10 +87,11 @@ extern lv_obj_t* mikeFace;
 extern lv_obj_t* debugLabel;
 
 // Runtime variable declarations
-extern double drivePosition, orientation; 
+extern double drivePosition, orientation, previousPosition, previousOrientation; 
 extern double targetDrive, targetAngle;
 extern int driveState, ptoState;
 extern int autoSelectorIndex;
+extern bool isStationary;
 
 // Utility function declarations
 void tare_motors();

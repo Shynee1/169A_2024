@@ -4,6 +4,7 @@ void opcontrol() {
 
     bool verticalWingState = false;
     bool horizontalWingState = false;
+    bool kickerState = false;
     int intakeState = 0;
 
 	while (true) { 
@@ -24,6 +25,7 @@ void opcontrol() {
         handle_pto();
         handle_wings(verticalWingState, horizontalWingState);
         handle_intake(intakeState);
+        handle_kicker(kickerState);
 
 		pros::delay(TASK_DELAY);
     }
@@ -36,14 +38,16 @@ void handle_pto() {
 
 void handle_two_bar(){
     if (controller.get_digital(FOUR_BAR_MANUAL_UP)){
+        ptoState = TWOBAR;
         ptoMotorRight.move(-127);
         ptoMotorLeft.move(-127);
     }
     else if (controller.get_digital(FOUR_BAR_MANUAL_DOWN)){
+        ptoState = TWOBAR;
         ptoMotorRight.move(127);
         ptoMotorLeft.move(127);
     }
-    else {
+    else if (ptoState == TWOBAR){
         ptoMotorRight.brake();
         ptoMotorLeft.brake();
     }  
@@ -70,4 +74,22 @@ void handle_intake(int &intakeState){
 
     double rotationValue = intakeState * 127;
     intake.move(rotationValue);
+}
+
+void handle_kicker(bool &kickerState) {
+    if (controller.get_digital_new_press(KICKER_TOGGLE)){
+        kickerState = !kickerState;
+        ptoState = KICKER;
+    }
+
+    if (ptoState != KICKER) return;
+
+    if (kickerState) {
+        ptoMotorRight.move(-95);
+        ptoMotorLeft.move(-95);
+    }
+    else {
+        ptoMotorRight.brake();
+        ptoMotorLeft.brake();
+    }
 }

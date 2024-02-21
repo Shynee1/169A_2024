@@ -8,6 +8,7 @@ void move(void* args){
         double motorLeftPos = (driveLeftFront.get_position() + driveLeftMiddle.get_position() + driveLeftBack.get_position()) / 3.0;
         drivePosition = (motorRightPos + motorLeftPos) / 2.0;
 
+        debug_print(1, "Drive Pos: " + std::to_string(drivePosition));
         debug_print(2, "Drive target: " + std::to_string(targetDrive));
         
         // Calculate motor output with PID
@@ -23,6 +24,8 @@ void move(void* args){
             driveRightMiddle.move(output);
             driveRightBack.move(output);
         }
+
+        previousPosition = drivePosition;
     
         delay(TASK_DELAY);
     }
@@ -53,6 +56,22 @@ void turn(void* args){
             driveRightMiddle.move(-output);
             driveRightBack.move(-output);
         }
+
+        previousOrientation = orientation;
+
+        delay(TASK_DELAY);
+    }
+}
+
+void stationary_check(void* args) {
+    double stationaryBound = 0.7;
+
+    while (true) {
+        isStationary = 
+            abs(orientation - previousOrientation) >= stationaryBound && 
+            abs(drivePosition - previousPosition) >= stationaryBound;
+
+        //debug_print(0, "Stationary: " + std::to_string(isStationary));
 
         delay(TASK_DELAY);
     }
