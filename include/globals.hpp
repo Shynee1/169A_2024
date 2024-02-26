@@ -19,10 +19,6 @@ constexpr double turnP = 1.0;
 constexpr double turnI = 0.0;
 constexpr double turnD = 1.0;
 
-constexpr double twobarP = 2.0;
-constexpr double twobarI = 0.0;
-constexpr double twobarD = 0.0;
-
 // Controller bindings
 constexpr auto FOUR_BAR_MANUAL_UP = pros::E_CONTROLLER_DIGITAL_L1;
 constexpr auto FOUR_BAR_MANUAL_DOWN = pros::E_CONTROLLER_DIGITAL_L2;
@@ -70,7 +66,6 @@ extern pros::ADIDigitalOut horizontalWings;
 
 extern PID drivePID;
 extern PID turnPID;
-extern PID twobarPID;
 
 // LVGL Declarations
 extern std::array<lv_style_t, 2> standardButtonStyle;

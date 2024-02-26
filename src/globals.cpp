@@ -20,7 +20,6 @@ pros::ADIDigitalOut horizontalWings(HORIZONTAL_WINGS_PORT);
 
 PID drivePID(driveP, driveI, driveD);
 PID turnPID(turnP, turnI, turnD);
-PID twobarPID(twobarP, twobarI, twobarD);
 
 // LVGL Definitions
 std::array<lv_style_t, 2> standardButtonStyle;
