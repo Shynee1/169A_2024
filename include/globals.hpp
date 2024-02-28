@@ -96,7 +96,8 @@ void toggle_pto();
 enum DriveState {
     CONTROLLER, 
     DRIVE,
-    TURN
+    TURN,
+    PROG
 };
 
 enum PtoState {

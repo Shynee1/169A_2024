@@ -25,38 +25,41 @@ void autonomous() {
             debug_print(0, "uh oh!");
             break;
     } */
-    far_elim();
+    prog();
 }
 
 void prog() {
-    setDriveTargetUnits(500);
-    wait(95);
-    intake.move(127);
-    turnPID.set_kP(0);
-    turnPID.set_kP(turnP);
-    verticalWings.set_value(true);
-    setDriveTargetUnits(-300);
-    verticalWings.set_value(true);
-    wait(95);
-    setDriveTargetUnits(500);
-    wait(95);
-    setAngleTargetAbsolute(90);
-    wait(95);
-    setAngleTargetAbsolute(180);
-    wait(95);
-    setDriveTargetUnits(300);
-    wait(95);
-
-    /*
-    wait(97);
-    setDriveTargetUnits(-100);
-    wait(95);
-    setDriveTargetUnits(500);
-    wait(95);
+    setDriveTargetUnits(-550);
+    pros::delay(1000);
+    turnPID.set_kP(2.0);
+    setAngleTargetAbsolute(47);
+    pros::delay(1000);
     setDriveTargetUnits(-500);
-    wait(95);
+    pros::delay(1000);
+    setDriveTargetUnits(350);
+    pros::delay(750);
+    setAngleTargetAbsolute(5);
+    pros::delay(1000);
+    setDriveTargetUnits(300);
+    pros::delay(750);
+    turnPID.set_kP(turnP);
+    setAngleTargetAbsolute(-64);
+    pros::delay(1000);
+    setDriveTargetUnits(-175);  
+    pros::delay(750);
     verticalWings.set_value(true);
-    */
+    pros::delay(500);
+    ptoMotorRight.move(-110);
+    ptoMotorLeft.move(-110);
+    pros::delay(7000);
+    verticalWings.set_value(false);
+    ptoMotorRight.move(0);
+    ptoMotorLeft.move(0);
+    setAngleTargetAbsolute(0);
+    pros::delay(1000);
+    setDriveTargetUnits(400);
+    pros::delay(1000);
+    setDriveTargetUnits(2500);
 }
 
 void close_awp() {
@@ -217,32 +220,6 @@ void far_elim() {
     pros::delay(1000);
     intake.move(127);
     setAngleTargetAbsolute(40);
-    /*
-    setDriveTargetUnits(-1090);
-    pros::delay(2000);
-    setAngleTargetAbsolute(-45);
-    pros::delay(1000);
-    verticalWings.set_value(true);
-    setDriveTargetUnits(-650);
-    pros::delay(1000);
-    verticalWings.set_value(false);
-    setDriveTargetUnits(100);
-    pros::delay(1000);
-    setDriveTargetUnits(-350);
-    pros::delay(1000);
-    setAngleTargetAbsolute(-85);
-    pros::delay(1000);
-    setDriveTargetUnits(-700);
-    pros::delay(1000);
-    setDriveTargetUnits(300);
-    pros::delay(1000);
-    turnPID.set_kD(3.0);
-    setAngleTargetAbsolute(85);
-    pros::delay(2000);
-    setDriveTargetUnits(400);
-    pros::delay(1000);
-    setDriveTargetUnits(-500);
-    */
 }
 
 void wait(int percentComplete) {

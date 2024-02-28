@@ -85,8 +85,8 @@ void handle_kicker(bool &kickerState) {
     if (ptoState != KICKER) return;
 
     if (kickerState) {
-        ptoMotorRight.move(-95);
-        ptoMotorLeft.move(-95);
+        ptoMotorRight.move(-110);
+        ptoMotorLeft.move(-110);
     }
     else {
         ptoMotorRight.brake();
