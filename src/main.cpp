@@ -24,9 +24,9 @@ void initialize() {
 
 	lv_color_t color = LV_COLOR_MAKE(36,30,32);
 
-	pages[0] = create_page(lv_scr_act(), LV_COLOR_BLACK, false);
+	pages[0] = create_page(lv_scr_act(), LV_COLOR_BLACK, true);
 	pages[1] = create_page(lv_scr_act(), color, false);
-	pages[2] = create_page(lv_scr_act(), LV_COLOR_BLACK, true);
+	pages[2] = create_page(lv_scr_act(), LV_COLOR_BLACK, false);
 
 	dropdown = create_dropdown(lv_scr_act(), {10, 10, 175, 50}, PAGES);
 	lv_ddlist_set_action(dropdown, dropdown_callback);

@@ -71,8 +71,6 @@ void stationary_check(void* args) {
             abs(orientation - previousOrientation) >= stationaryBound && 
             abs(drivePosition - previousPosition) >= stationaryBound;
 
-        //debug_print(0, "Stationary: " + std::to_string(isStationary));
-
         delay(TASK_DELAY);
     }
 }
