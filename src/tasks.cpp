@@ -16,6 +16,7 @@ void move(void* args){
 
         debug_print(3, "Drive Output: " + std::to_string(output));
         
+        // Check if task should move motors
         if (driveState == DRIVE) {
             driveLeftFront.move(output);
             driveLeftMiddle.move(output);
@@ -48,6 +49,7 @@ void turn(void* args){
         debug_print(5, "Angle Output: " + std::to_string(output));
         debug_print(6, "Angle Value: "  + std::to_string(orientation));
 
+        // Check if task should move motors
         if (driveState == TURN) {
             driveLeftFront.move(output);
             driveLeftMiddle.move(output);
@@ -67,6 +69,7 @@ void stationary_check(void* args) {
     double stationaryBound = 0.7;
 
     while (true) {
+        // Check if delta positon and delta orientation less than stationary bound
         isStationary = 
             abs(orientation - previousOrientation) >= stationaryBound && 
             abs(drivePosition - previousPosition) >= stationaryBound;

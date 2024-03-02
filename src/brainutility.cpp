@@ -73,6 +73,7 @@ lv_obj_t* create_dropdown(lv_obj_t* parent, lv_dimension dimensions, const char*
 std::array<lv_style_t, 2> create_button_style(lv_color_t text, lv_color_t released, lv_color_t pressed, lv_color_t border) {
     std::array<lv_style_t, 2> buttonStyles;
 
+    // Initialize all styles with default values
     for (int i = 0; i < 2; i++) {
         lv_style_copy(&buttonStyles[i], &lv_style_plain);
         buttonStyles[i].text.color = text;
@@ -121,16 +122,19 @@ void debug_print(std::string text) {
 void debug_print(int line, std::string text) {
     std::string currentText = lv_label_get_text(debugLabel);
 
+    // Find the lineth '\n' character
     int startPos = find_nth_pos(currentText, '\n', line);
     if (startPos == -1){
         debug_print(text);
         return;
     }
 
+    // Find position of next '\n' character
     int endPos = currentText.find('\n', startPos + 1);
     if (endPos == std::string::npos)
         endPos = currentText.length();
     
+    // Append new text in between the two
     std::string newText = 
         currentText.substr(0, startPos) + text + 
         currentText.substr(endPos, currentText.length() - endPos);
@@ -181,9 +185,9 @@ lv_res_t dropdown_callback(lv_obj_t* dropdown) {
     return LV_RES_OK;
 }
 
-lv_fs_res_t file_open_callback(void* file_p, const char * filename, lv_fs_mode_t mode)
-{
+lv_fs_res_t file_open_callback(void* file_p, const char* filename, lv_fs_mode_t mode)  {
     errno = 0;
+    // Set read/write flags
     const char* flags = "";
     if(mode == LV_FS_MODE_WR) 
         flags = "wb";
@@ -192,13 +196,17 @@ lv_fs_res_t file_open_callback(void* file_p, const char * filename, lv_fs_mode_t
     else if(mode == (LV_FS_MODE_WR | LV_FS_MODE_RD)) 
         flags = "a+";
 
+    // Append backslash for path
     std::string path = "/" + std::string(filename);
+    // Open file in local variables
     file_t file = fopen(path.c_str(), flags);
 
     if (file == NULL)
         return LV_FS_RES_UNKNOWN;
     
+    // Set seek pointer to the start
     fseek(file, 0, SEEK_SET);
+    // Set file pointer to the local file
     file_t* fp = static_cast<file_t*>(file_p);
     *fp = file;
     

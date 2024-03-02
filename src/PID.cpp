@@ -1,6 +1,7 @@
 #include "PID.hpp"
 
-PID::PID(double kP, double kI, double kD) {
+PID::PID(double kP, double kI, double kD) {\
+    // Set global PID constants
     this->kP = kP;
     this->kI = kI;
     this->kD = kD;

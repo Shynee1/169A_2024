@@ -70,7 +70,6 @@ void competition_initialize(void);
 void opcontrol(void);
 void initializeFileDrive();
 void initializeAutoSelector();
-void initializeDisplayLogo();
 void initializeDebugScreen();
 #ifdef __cplusplus
 }

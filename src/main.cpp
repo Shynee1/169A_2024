@@ -15,35 +15,38 @@ void initialize() {
 	ptoMotorLeft.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
 	tare_motors();
-
+	
 	initializeFileDrive();
 
+	// Create brain screen styles
 	standardButtonStyle = create_button_style(LV_COLOR_WHITE, LV_COLOR_BLACK, LV_COLOR_WHITE, LV_COLOR_WHITE);
 	redButtonStyle = create_button_style(LV_COLOR_WHITE, LV_COLOR_RED, LV_COLOR_WHITE, LV_COLOR_BLACK);
 	blueButtonStyle = create_button_style(LV_COLOR_WHITE, LV_COLOR_BLUE, LV_COLOR_WHITE, LV_COLOR_BLACK);
 
 	lv_color_t color = LV_COLOR_MAKE(36,30,32);
 
+	// Initalize all pages
 	pages[0] = create_page(lv_scr_act(), LV_COLOR_BLACK, true);
 	pages[1] = create_page(lv_scr_act(), color, false);
 	pages[2] = create_page(lv_scr_act(), LV_COLOR_BLACK, false);
 
+	// Create dropdown to switch between pages
 	dropdown = create_dropdown(lv_scr_act(), {10, 10, 175, 50}, PAGES);
 	lv_ddlist_set_action(dropdown, dropdown_callback);
 
+	// Initialize screen components
 	initializeAutoSelector();
-	initializeDisplayLogo();
 	initializeDebugScreen();
 
 	debug_print(0, "Hello World");
-
+	
 	pros::Task moveTask(move);
 	pros::Task turnTask(turn);
-	//pros::Task stationaryTask(stationary_check);
 }
 
 
-void initializeFileDrive() {
+void initializeFileDrive() {	
+	// Create LVGL filedrive with callbacks
 	memset(&drive, 0, sizeof(lv_fs_drv_t));
 	drive.file_size = sizeof(FILE*);
 	drive.letter = 'S';
@@ -56,6 +59,7 @@ void initializeFileDrive() {
 }
 
 void initializeAutoSelector() {
+	// Create buttons
 	lv_obj_t* placeholder = create_button(pages[0], {10, 10, 1, 1}, 100, "H", standardButtonStyle);
 	lv_obj_t* progButton = create_button(pages[0], {10, 72, 175, 46}, PROG_BUTTON_ID, "PROG", standardButtonStyle);
 	lv_obj_t* redTeamButton = create_button(pages[0], {10, 123, 175, 46}, NEAR_BUTTON_ID, "Near Side", redButtonStyle);
@@ -66,17 +70,15 @@ void initializeAutoSelector() {
 	lv_obj_set_hidden(awpButton, true);
 	lv_obj_set_hidden(elimButton, true);
 
+	// Assign button callbacks
 	lv_btn_set_action(progButton, LV_BTN_ACTION_CLICK, button_callback);
 	lv_btn_set_action(redTeamButton, LV_BTN_ACTION_CLICK, button_callback);
 	lv_btn_set_action(blueTeamButton, LV_BTN_ACTION_CLICK, button_callback);
 	lv_btn_set_action(awpButton, LV_BTN_ACTION_CLICK, button_callback);
 	lv_btn_set_action(elimButton, LV_BTN_ACTION_CLICK, button_callback);
 
+	// Read image from sd card
 	mikeFace = create_image(pages[0], "S:/usd/mike.bin", {205, 10, 265, 60});
-}
-
-void initializeDisplayLogo() {
-	//logoImage = create_image(pages[1], &logo, LV_ALIGN_CENTER);
 }
 
 void initializeDebugScreen() {

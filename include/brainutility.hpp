@@ -6,6 +6,7 @@ struct lv_dimension {
     lv_coord_t x, y, w, h;
 };
 
+// Screen utility variables
 constexpr lv_coord_t BUTTON_BORDER_WIDTH = 2;
 constexpr lv_coord_t BUTTON_CORNER_RADIUS = 5;
 constexpr char PAGES[] = "Auto Selector\nLogo Display\nDebug Text";

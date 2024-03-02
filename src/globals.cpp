@@ -11,10 +11,9 @@ pros::Motor driveLeftBack(DRIVE_LEFT_BACK_PORT);
 pros::Motor intake(INTAKE_PORT);
 pros::Motor ptoMotorRight(PTO_MOTOR_RIGHT_PORT);
 pros::Motor ptoMotorLeft(PTO_MOTOR_LEFT_PORT, true);
-pros::Rotation kickerRotation(KICKER_ROTATION_PORT);
 pros::IMU imu(IMU_PORT);
 pros::Distance distance(DISTANCE_PORT);
-pros::ADIDigitalOut ptoPiston(PTO_PISTON_PORT, true);
+pros::ADIDigitalOut ptoPiston(PTO_PISTON_PORT);
 pros::ADIDigitalOut verticalWings(VERTICAL_WINGS_PORT);
 pros::ADIDigitalOut horizontalWings(HORIZONTAL_WINGS_PORT);
 

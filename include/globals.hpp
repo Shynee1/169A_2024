@@ -36,15 +36,14 @@ constexpr int DRIVE_RIGHT_BACK_PORT = 19;
 constexpr int DRIVE_LEFT_FRONT_PORT = 1;
 constexpr int DRIVE_LEFT_MIDDLE_PORT = 13;
 constexpr int DRIVE_LEFT_BACK_PORT = 11;
-constexpr int PTO_MOTOR_RIGHT_PORT = 20;
+constexpr int PTO_MOTOR_RIGHT_PORT = 18;
 constexpr int PTO_MOTOR_LEFT_PORT = 12;  
-constexpr int KICKER_ROTATION_PORT = 19;
 constexpr int INTAKE_PORT = 5;
 constexpr int IMU_PORT = 4;
 constexpr int DISTANCE_PORT = 0;
 constexpr char PTO_PISTON_PORT = 'H';
-constexpr char VERTICAL_WINGS_PORT = 'B';
-constexpr char HORIZONTAL_WINGS_PORT = 'C';
+constexpr char VERTICAL_WINGS_PORT = 'F';
+constexpr char HORIZONTAL_WINGS_PORT = 'D';
 
 // VEX declarations (defined in globals.cpp)
 extern pros::Controller controller;
@@ -57,7 +56,6 @@ extern pros::Motor driveLeftBack;
 extern pros::Motor ptoMotorRight;
 extern pros::Motor ptoMotorLeft;
 extern pros::Motor intake;
-extern pros::Rotation kickerRotation;
 extern pros::IMU imu;
 extern pros::Distance distance;
 extern pros::ADIDigitalOut ptoPiston;
@@ -92,7 +90,10 @@ extern bool isStationary;
 void tare_motors();
 void toggle_pto();
 
-// State definitions
+/**
+ * Auto Drive State definitions
+ * Auto Drive State is used to prevent race condition during autonomous
+*/
 enum DriveState {
     CONTROLLER, 
     DRIVE,
@@ -100,6 +101,11 @@ enum DriveState {
     PROG
 };
 
+/**
+ * PTO state definitions
+ * PTO state is used to determine the speed of the motors
+ * when certain buttons are pressed
+*/
 enum PtoState {
     TRANSITION,
     TWOBAR, 
